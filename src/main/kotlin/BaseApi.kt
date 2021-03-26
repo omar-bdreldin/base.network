@@ -3,6 +3,7 @@ import com.google.gson.Gson
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.internal.EMPTY_REQUEST
 
@@ -14,6 +15,8 @@ abstract class BaseApi<DATA>(
     companion object {
         @JvmStatic
         private val gson = Gson()
+        @JvmStatic
+        private val jsonMediaType: MediaType = "application/json; charset=utf-8".toMediaType()
     }
 
     private val throwError: Boolean = true
@@ -65,7 +68,7 @@ abstract class BaseApi<DATA>(
                 .let { builder ->
                     val body: RequestBody? = if (method == GET) null
                     else {
-                        bodyParams?.let { gson.toJson(it).toRequestBody() }
+                        bodyParams?.let { gson.toJson(it).toRequestBody(jsonMediaType) }
                     }
                     when (method) {
                         GET -> builder.get()
