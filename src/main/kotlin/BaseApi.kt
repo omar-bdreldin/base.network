@@ -19,7 +19,7 @@ abstract class BaseApi<DATA>(
         private val jsonMediaType: MediaType = "application/json; charset=utf-8".toMediaType()
     }
 
-    private val throwError: Boolean = true
+    var throwError: Boolean = true
 
     override fun call(
         url: String,
